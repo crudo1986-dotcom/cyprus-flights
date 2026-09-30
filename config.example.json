@@ -4,7 +4,7 @@
   "passengers": 4,
   "depart_from": "",
   "depart_to": "",
-  "stay_nights": [],
+  "stay_nights": [3, 4, 7],
   "currency": "ILS",
   "max_price_per_person": 400,
   "daily_call_budget": 200,
