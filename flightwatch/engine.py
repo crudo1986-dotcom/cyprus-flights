@@ -66,13 +66,17 @@ class Engine:
             if e.fatal:
                 raise
             return []
+        cap, legs = self.cfg.max_per_person_per_direction, 2 if q["return"] else 1
+        if cap:  # per person, per direction, strictly under the cap
+            offers = [o for o in offers if o["per_person"] / legs < cap]
         offers.sort(key=lambda o: o["per_person"])
         for o in offers:
             self.db.add_price(q["key"], o)
         alerts = []
         if offers:
             top = offers[0]
-            cheap = self.cfg.max_price_per_person and top["per_person"] <= self.cfg.max_price_per_person
+            cheap = bool(cap) or (self.cfg.max_price_per_person
+                                  and top["per_person"] <= self.cfg.max_price_per_person)
             drop = best_pp is not None and top["per_person"] <= best_pp * (1 - self.cfg.min_drop_pct / 100)
             sig = f'{top["id"]}:{top["total"]}'
             if (cheap or drop) and not self.db.was_alerted(q["key"], sig):
@@ -85,7 +89,8 @@ class Engine:
     def alert(self, q, o, prev):
         a = {"when": dt.datetime.now().isoformat(timespec="seconds"), "route": f'{q["origin"]}->{q["dest"]}',
              "date": q["date"], "return": q["return"], "seats_together": self.cfg.passengers,
-             "per_person": o["per_person"], "total": o["total"], "currency": self.cfg.currency,
+             "per_person": o["per_person"],
+             "per_person_per_direction": round(o["per_person"] / (2 if q["return"] else 1), 2), "total": o["total"], "currency": self.cfg.currency,
              "previous_best_pp": prev, "flight": o["summary"]}
         log.info("DEAL %s %s: %s %s pp (total %s for %d) %s", a["route"], a["date"], a["per_person"],
                  a["currency"], a["total"], a["seats_together"], a["flight"])

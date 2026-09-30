@@ -27,7 +27,7 @@ class T(unittest.TestCase):
         d = tempfile.mkdtemp()
         self.cfg = Config(db_path=os.path.join(d, "t.db"), alerts_log=os.path.join(d, "a.jsonl"),
                           provider="mock", depart_from="2099-01-01", depart_to="2099-01-03",
-                          daily_call_budget=2, max_price_per_person=0)
+                          daily_call_budget=2, max_price_per_person=0, max_per_person_per_direction=0)
 
     def test_requires_all_seats(self):
         self.assertIsNone(normalize(raw(3, 400), 4))
@@ -47,6 +47,20 @@ class T(unittest.TestCase):
         before = f.calls
         e.run_once()                              # over budget -> no call
         self.assertEqual(f.calls, before)
+
+    def test_cap_per_person_per_direction(self):
+        self.cfg.max_per_person_per_direction = 100
+        f = Fake(440)  # 110 pp one-way -> filtered out
+        e = Engine(self.cfg, provider=f, db=DB(self.cfg.db_path))
+        q = build_queries(self.cfg)[0]
+        self.assertEqual(e.check(q), [])
+        f.price = 396  # 99 pp -> shown
+        self.assertEqual(len(e.check(q)), 1)
+        rt = dict(q, **{"return": "2099-01-08"})
+        f.price = 780  # 195 pp round trip = 97.5 per direction -> shown
+        self.assertEqual(len(e.check(rt)), 1)
+        f.price = 800  # 200 pp round trip = 100 per direction -> not strictly below
+        self.assertEqual(e.check(dict(rt, key="k2")), [])
 
     def test_recheck_interval_saves_calls(self):
         f = Fake(400)

@@ -10,9 +10,10 @@ class Config:
     depart_from: str = ""                    # YYYY-MM-DD (empty = today + 7)
     depart_to: str = ""                      # YYYY-MM-DD (empty = from + 60 days)
     stay_nights: list = field(default_factory=list)  # [] = one-way, [3, 7] = round trip
-    currency: str = "ILS"
+    currency: str = "USD"
     non_stop: bool = False
-    max_price_per_person: float = 0.0        # alert threshold, 0 = only alert on new lows
+    max_per_person_per_direction: float = 100.0  # HARD filter: only show offers strictly below this (0 = off)
+    max_price_per_person: float = 0.0        # extra alert threshold on total pp, 0 = off
     min_drop_pct: float = 5.0                # alert if cheaper than best known by this %
     daily_call_budget: int = 200             # hard cap on API calls per day
     max_offers_per_call: int = 5             # small responses = fewer wasted bytes

@@ -5,8 +5,8 @@
   "depart_from": "",
   "depart_to": "",
   "stay_nights": [3, 4, 7],
-  "currency": "ILS",
-  "max_price_per_person": 400,
+  "currency": "USD",
+  "max_per_person_per_direction": 100,
   "daily_call_budget": 200,
   "provider": "amadeus",
   "webhook_url": ""
