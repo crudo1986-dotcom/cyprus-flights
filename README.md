@@ -1,7 +1,7 @@
 # cyprus-flights
 
-מנוע רקע שמחפש טיסות זולות לקפריסין (LCA/PFO) ומחזיר **רק הצעות עם 4 מקומות יחד על אותה טיסה**.
-Background watcher for cheap flights to Cyprus; only offers that seat all 4 passengers on the same flight.
+מנוע רקע שמחפש טיסות זולות לקפריסין מתל אביב (TLV) או חיפה (HFA) ללרנקה (LCA) ומחזיר **רק הצעות עם 4 מקומות יחד על אותה טיסה**.
+Background watcher for cheap flights from Tel Aviv or Haifa to Larnaca; only offers that seat all 4 passengers on the same flight.
 
 ## איך זה עובד / How it works
 - **4 ביחד:** כל חיפוש נשלח עם `adults=4`, ובנוסף כל הצעה נבדקת (`numberOfBookableSeats >= 4` ו-4 נוסעים בתמחור). הצעה שלא מתאימה נזרקת.

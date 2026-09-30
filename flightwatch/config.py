@@ -4,8 +4,8 @@ from dataclasses import dataclass, field, fields
 
 @dataclass
 class Config:
-    origins: list = field(default_factory=lambda: ["TLV"])
-    destinations: list = field(default_factory=lambda: ["LCA", "PFO"])  # Larnaca, Paphos
+    origins: list = field(default_factory=lambda: ["TLV", "HFA"])  # Tel Aviv, Haifa
+    destinations: list = field(default_factory=lambda: ["LCA"])  # Larnaca
     passengers: int = 4                      # ALL must be on the same flight/offer
     depart_from: str = ""                    # YYYY-MM-DD (empty = today + 7)
     depart_to: str = ""                      # YYYY-MM-DD (empty = from + 60 days)

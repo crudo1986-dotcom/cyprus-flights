@@ -1,6 +1,6 @@
 {
-  "origins": ["TLV"],
-  "destinations": ["LCA", "PFO"],
+  "origins": ["TLV", "HFA"],
+  "destinations": ["LCA"],
   "passengers": 4,
   "depart_from": "",
   "depart_to": "",
