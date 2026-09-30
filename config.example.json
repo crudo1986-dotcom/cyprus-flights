@@ -1,0 +1,13 @@
+{
+  "origins": ["TLV"],
+  "destinations": ["LCA", "PFO"],
+  "passengers": 4,
+  "depart_from": "",
+  "depart_to": "",
+  "stay_nights": [],
+  "currency": "ILS",
+  "max_price_per_person": 400,
+  "daily_call_budget": 200,
+  "provider": "amadeus",
+  "webhook_url": ""
+}

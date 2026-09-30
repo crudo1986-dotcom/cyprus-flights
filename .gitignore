@@ -1,0 +1,4 @@
+flightwatch.db
+alerts.jsonl
+config.json
+__pycache__/
